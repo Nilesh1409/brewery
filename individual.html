@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Individual</title>
+    <style>
+       *{
+            margin: 0;
+            padding: 0;
+        }
+        #navbar{
+            width: 100%;
+            height: 20%;
+            background-color: black;
+            
+        }
+        #navbar > div{
+            display: inline-block;
+            margin: 10px 5%;
+        }
+        #navbar > div > a{
+            display: inline-block;
+            text-decoration: none;
+            color: aliceblue;
+            font-size: xx-large;
+        }
+        p{
+            color: blue;
+            font-size: x-large;
+            margin: 10px;
+        }
+</style>
+</head>
+<body>
+<div id="navbar">
+    <div><a href="./home.html">Home</a></div>
+    <div><a href="./search.html">Search</a></div>
+    <div><a href="./individual.html">Individual</a></div>
+</div>
+<div id="container"></div>
+
+<script>
+    const brewery = JSON.parse(localStorage.getItem("breweryId"));
+    async function getBrewery(){
+            try {
+                const data = await mainFun();
+            display(data);
+            } catch (error) {
+                console.log(error)
+            }
+         }
+
+            async function mainFun(){
+             try {
+                 const res = await fetch("https://api.openbrewerydb.org/breweries/"+brewery)
+
+                 const data = res.json();
+                 return data;
+             } catch (error) {
+                 
+             }
+            }
+
+            getBrewery();
+
+            function display(brewery){
+             const mainDiv = document.createElement("div");
+             const name = document.createElement("p");
+             name.textContent = "Name : " +brewery.name; 
+             const type = document.createElement("p");
+             type.textContent = "Brewery Type : " +brewery.brewery_type; 
+             const city = document.createElement("p");
+             city.textContent = "City : " +brewery.city; 
+             const country = document.createElement("p");
+             country.textContent = "Country : " +brewery.country; 
+             const id = document.createElement("p");
+             id.textContent = "Brewery Id : " +brewery.id; 
+             const state = document.createElement("p");
+             state.textContent = "State : " +brewery.state; 
+
+             mainDiv.append(name,type,city,country,id,state);
+             document.getElementById("container").append(mainDiv);
+            }
+</script>
+</body>
+</html>
